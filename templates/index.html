@@ -1,0 +1,52 @@
+{% extends 'base.html'%}
+
+{% block head %}
+    <link rel="icon" type="image/x-icon" href="{{url_for('static', filename='img/users-line-solid.svg')}}"> 
+    <title>Vac!T</title>
+{% endblock %}
+
+{% block header %}
+    <li id="menu">
+        <ul>REGISTREREN</ul>
+        <ul>INLOGGEN</ul>
+    </li>
+{% endblock %}
+{% block content %}
+    <div class="slider"></div>
+    <div class="jobs">
+        <li>
+            <ul><span>21 juli 2024</span>
+                <h2>PHP Developer voor Educom</h2>
+                <p><i>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut, voluptas! Laborum hic dolorum tempora enim aspernatur laudantium, quibusdam sapiente debitis, minus rem vero maxime corrupti numquam dolorem facere reiciendis quam.</i></p>
+                <img id="arrow" src="{{url_for('static', filename='img/icons8-arrow-50.png')}}">
+            </ul>
+            <ul><span>22 juli 2024</span>
+                <h2>Data Scientist voor Educom</h2>
+                <p><i>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut, voluptas! Laborum hic dolorum tempora enim aspernatur laudantium, quibusdam sapiente debitis, minus rem vero maxime corrupti numquam dolorem facere reiciendis quam.</i></p>
+                <img id="arrow" src="{{url_for('static', filename='img/icons8-arrow-50.png')}}">
+            </ul>
+
+        </li>
+    </div>
+{% endblock %}
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='styles.css')}}">
+
+    <title>Vac!T: De Mooiste IT Vacatures!</title>
+</head>
+<body>
+    <div class="header">
+        <img id="logo" src="{{url_for('static', filename='img/vacit-logo-wit.png')}}">
+
+    </div>
+    <div class="content">
+
+    </div>
+
+</body>
+</html> -->

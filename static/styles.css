@@ -1,0 +1,161 @@
+@font-face {
+    font-family: 'Roboto Condensed';
+    src: url('fonts/roboto-condensed/roboto-condensed-webfont.woff2') format('woff2'),
+         url('fonts/roboto-condensed/roboto-condensed-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Bebas Neue';
+    src: url('fonts/bebas-neue/bebasneue-webfont.woff2') format('woff2'),
+         url('fonts/bebas-neue/bebasneue-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+:root {
+    /* FONTS */
+    --titles: "Bebas Neue", sans-serif;
+    --headings: "Roboto Condensed", sans-serif;
+    --regular: "Arial", sans-serif;
+
+    /* COLORS */
+    --gray: #333333;
+    --orange: #F15A24;
+    --white: #FFF;
+    --black: #000;
+}
+
+h1 {
+    font-family: var(--headings), var(--regular);
+    margin: 0;
+}
+
+h2, h4 {
+    font-family: var(--titles), var(--regular);
+    margin: 0;
+}
+
+* {
+    font-family: var(--regular);
+}
+
+html {
+    height: 100%;
+    width: 100%;
+}
+
+body { 
+    margin: 0px 0;
+    background-color: var(--orange);
+}
+
+.header {
+    font-family: var(--headings), var(--regular);
+    background-color: var(--gray);
+    width: 100%; /* Make sure it spans the full width of the page */
+    height: 100%;
+    margin: 0;
+    position: relative;
+}
+
+#menu {
+    color: var(--white);
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-top: -45px;
+    align-items: center;
+}
+
+#menu ul {
+    margin-right: 2%;
+    cursor: pointer;
+}
+
+#logo {
+    width: 30%;
+    height: 30%;
+    display: inline;
+    vertical-align: middle;
+    margin-top: -2%;
+    margin-left: -5%;
+    margin-bottom: -2%;
+}
+
+.header::after {
+    content: '';
+    display: block;
+    position: absolute;
+    bottom: -30px;
+    left: 0;
+    width: 100%;
+    height: 20px; /* Adjust based on the desired size of the slope */
+    background: linear-gradient(to bottom right, var(--orange) 10%, transparent 10%);
+    transform: rotate(-1deg);
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1); /* Adjust the shadow as needed */
+    z-index: -1; /* Place it behind the header content */
+}
+
+footer::before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: -30px; /* Adjust based on the desired size of the slope */
+    left: 0;
+    width: 100%;
+    height: 40px; /* Adjust based on the desired size of the slope */
+    transform: rotate(-1deg);
+    /* background: linear-gradient(to top right, var(--orange) 10%, transparent 10%); */
+    box-shadow: 0 -10px 10px rgba(0, 0, 0, 0.1); /* Adjust the shadow as needed */
+    z-index: 1; /* Place it in front of the footer content */
+}
+
+footer {
+    background-color: var(--gray);
+    color: var(--white);
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
+    display: inline-flex;
+    width: 100%;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+footer > div {
+    margin: 1%;
+    width: 30%;
+}
+
+footer > div * {
+    margin: 0;
+}
+
+footer > img {
+    width: 30%;
+    height: 30%;
+    display: inline;
+    vertical-align: middle;
+    margin-top: -1%;
+    margin-left: -5%;
+}
+
+/* .jobs > li  {
+    display: flex;
+
+} */
+
+.jobs {
+    margin-top: 5%;
+    float: right;
+}
+
+
+.jobs > li > ul > h2 {
+    color: var(--white);
+}
