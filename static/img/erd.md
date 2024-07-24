@@ -8,10 +8,16 @@ erDiagram
         str title
         str location
         str description
-        str main_technique
+        str technique_id FK
     }
 
-    users o{--}o jobs: hasCompanies
+    techniques o{--|o jobs: hasTechnique
+    techniques {
+        int id PK
+        str name UK
+    }
+
+    users o|--}o jobs: hasCompanies
     users {
         int id PK
         str role
@@ -31,14 +37,14 @@ erDiagram
     %% the name is the name of the company or the first name of the candidate
     %% the profile_img is the logo of the company or the cover img of the candidate
     %% last_name, resume_pdf, DOB and mobile are NULL when the user is a company
-    %% only role, email and pswd are filled in for the admin user, all else 
+    %% only role, email and pswd are filled in for the admin user, all else NULL
 
-    candidate_jobs o{--}o jobs: hasCandidates
-    candidate_jobs o{--}o users: hasJobs
+    candidate_jobs o{--|o jobs: hasCandidates
+    candidate_jobs o{--|o users: hasJobs
     candidate_jobs {
         int id PK
         int job_id FK
-        int candidate_id 
+        int candidate_id FK 
         str motivation
     }
 ```
