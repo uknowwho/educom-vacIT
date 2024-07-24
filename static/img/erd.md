@@ -11,7 +11,7 @@ erDiagram
         str technique_id FK
     }
 
-    techniques o{--|o jobs: hasTechnique
+    techniques o|--o{ jobs: hasTechnique
     techniques {
         int id PK
         str name UK
