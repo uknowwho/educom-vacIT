@@ -37,7 +37,7 @@ erDiagram
     %% the name is the name of the company or the first name of the candidate
     %% the profile_img is the logo of the company or the cover img of the candidate
     %% last_name, resume_pdf, DOB and mobile are NULL when the user is a company
-    %% only role, email and pswd are filled in for the admin user, all else NULL
+    %% only role, email, pswd, name and profile_img are filled in for the admin user, all else NULL
 
     candidate_jobs o{--|o jobs: hasCandidates
     candidate_jobs o{--|o users: hasJobs
