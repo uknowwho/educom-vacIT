@@ -15,6 +15,7 @@ erDiagram
     techniques {
         int id PK
         str name UK
+        str logo_img UK
     }
 
     users o|--}o jobs: hasCompanies
