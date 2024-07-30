@@ -1,6 +1,6 @@
 from datetime import datetime
 from flask_wtf import FlaskForm
-from wtforms import StringField, DateField, SubmitField, TextAreaField
+from wtforms import StringField, DateField, SubmitField, TextAreaField, HiddenField
 from flask_wtf.file import FileField
 from wtforms.validators import DataRequired, Email, Optional
 from flask_wtf.file import FileAllowed
@@ -31,4 +31,5 @@ class ProfileForm(FlaskForm):
     city = StringField('Woonplaats', validators=[Optional()])
     motivation = TextAreaField('Motivatie', validators=[Optional()])
     resume_pdf = FileField('CV (.pdf)', validators=[FileAllowed(['pdf'], 'PDF only!')])
+    profile_img = FileField(validators=[DataRequired()])
     submit = SubmitField('Opslaan')

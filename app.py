@@ -1,6 +1,6 @@
 import os
 from datetime import date
-from flask import Flask, render_template, redirect, request
+from flask import Flask, render_template, redirect, request, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.utils import secure_filename
 
@@ -18,7 +18,7 @@ SECRET_KEY = os.urandom(32)
 app.config["SECRET_KEY"] = SECRET_KEY
 
 # Configure the upload folder and allowed extensions
-UPLOAD_FOLDER = 'uploads/resumes'
+UPLOAD_FOLDER = 'uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -124,10 +124,11 @@ def profile():
     if request.method == "POST" and form.validate_on_submit():
         form.populate_obj(user)
 
-        # Handle resume upload
-        if form.resume_pdf.data:
+        # Don't handle resume upload if no change (data is a str)
+        if form.resume_pdf.data and not isinstance(form.resume_pdf.data, str):
             filename = secure_filename(form.resume_pdf.data.filename)
-            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            upload_resumes = app.config['UPLOAD_FOLDER'] + '/resumes'
+            file_path = os.path.join(upload_resumes, filename)
 
             # Save to server
             form.resume_pdf.data.save(file_path)
@@ -135,11 +136,27 @@ def profile():
             # Save path to users table
             user.resume_pdf = file_path
 
+        # Don't handle profile img upload if no change (data is a str)
+        if form.profile_img.data and not isinstance(form.profile_img.data, str):
+            filename = secure_filename(form.profile_img.data.filename)
+            upload_profiles = os.path.join(app.config['UPLOAD_FOLDER'], 'profiles')
+            os.makedirs(upload_profiles, exist_ok=True)
+            file_path = os.path.join(upload_profiles, filename)
+            form.profile_img.data.save(file_path)
+            user.profile_img = file_path
+
         db.session.commit()
         return redirect('/profile')
    
     return render_template("profile.html", form=form)
 
+@app.route('/uploads/resumes/<name>')
+def download_file(name):
+    return send_from_directory('uploads/resumes/', name)
+
+@app.route('/uploads/profiles/<name>')
+def show_img(name):
+    return send_from_directory('uploads/profiles/', name)
 
 if __name__ == "__main__":
     with app.app_context():

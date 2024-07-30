@@ -16,13 +16,17 @@
 {% block content %}
     <div class="white-background">
         <div class="main-content">
-            <div class="profile-img"></div>
             <div class="profile">
-                <h2>MIJN PROFIEL</h2>
+                <h1 id="my-profile">MIJN PROFIEL</h1>
                 <form method="POST" action="profile" enctype="multipart/form-data">
                     {{ form.hidden_tag() }}
-                    <div>
-                        {{ form.name.label }} {{ form.name() }}
+                <div class="profile-img-container">
+                    <img src="{{ url_for('show_img', name=form.profile_img.data[17:]) }}" alt="Profiel Foto" id="profile-img">
+                    {{ form.profile_img(class="file-input", id="profile-img-input") }}
+                </div>
+                    <div class="form-group">
+                        {{ form.name.label(class="form-label") }}
+                        {{ form.name(class="form-input") }}
                         {% if form.name.errors %}
                             <ul>
                                 {% for error in form.name.errors %}
@@ -31,11 +35,13 @@
                             </ul>
                         {% endif %}
                     </div>
-                    <div>
-                        {{ form.last_name.label }} {{ form.last_name() }}
+                    <div class="form-group">
+                        {{ form.last_name.label(class="form-label") }}
+                        {{ form.last_name(class="form-input") }}
                     </div>
-                    <div>
-                        {{ form.email.label }} {{ form.email() }}
+                    <div class="form-group">
+                        {{ form.email.label(class="form-label") }}
+                        {{ form.email(class="form-input") }}
                         {% if form.email.errors %}
                             <ul>
                                 {% for error in form.email.errors %}
@@ -44,26 +50,37 @@
                             </ul>
                         {% endif %}
                     </div>
-                    <div>
-                        {{ form.date_of_birth.label }} {{ form.date_of_birth() }}
+                    <div class="form-group">
+                        {{ form.date_of_birth.label(class="form-label") }}
+                        {{ form.date_of_birth(class="form-input") }}
                     </div>
-                    <div>
-                        {{ form.mobile.label }} {{ form.mobile() }}
+                    <div class="form-group">
+                        {{ form.mobile.label(class="form-label") }}
+                        {{ form.mobile(class="form-input") }}
                     </div>
-                    <div>
-                        {{ form.address.label }} {{ form.address() }}
+                    <div class="form-group">
+                        {{ form.address.label(class="form-label") }}
+                        {{ form.address(class="form-input") }}
                     </div>
-                    <div>
-                        {{ form.postal_code.label }} {{ form.postal_code() }}
+                    <div class="form-group">
+                        {{ form.postal_code.label(class="form-label") }}
+                        {{ form.postal_code(class="form-input") }}
                     </div>
-                    <div>
-                        {{ form.city.label }} {{ form.city() }}
+                    <div class="form-group">
+                        {{ form.city.label(class="form-label") }}
+                        {{ form.city(class="form-input") }}
                     </div>
-                    <div>
-                        {{ form.motivation.label }} {{ form.motivation() }}
+                    <div class="form-group">
+                        {{ form.motivation.label(class="form-label") }}
+                        {{ form.motivation(id="form-motivation") }}
                     </div>
-                    <div>
-                        {{ form.resume_pdf.label }} {{ form.resume_pdf() }}
+                    <div class="form-group">
+                        {{ form.resume_pdf.label(class="form-label") }}
+                        {% if form.resume_pdf.data %}
+                        <!-- The name argument must be altered if file structure changes -->
+                        <p>Huidig CV: <a href="{{ url_for('download_file', name=form.resume_pdf.data[16:]) }}" target="_blank">{{ form.resume_pdf.data[16:] }}</a></p>
+                    {% endif %}
+                        {{ form.resume_pdf(class="form-input") }}
                         {% if form.resume_pdf.errors %}
                             <ul>
                                 {% for error in form.resume_pdf.errors %}
@@ -73,10 +90,25 @@
                         {% endif %}
                     </div>
                     <div>
-                        {{ form.submit() }}
+                        {{ form.submit(class="form-input") }}
                     </div>
                 </form>
             </div>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('profile-img').addEventListener('click', function() {
+                document.getElementById('profile-img-input').click();
+            });
+
+            document.getElementById('profile-img-input').addEventListener('change', function() {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('profile-img').src = e.target.result;
+                }
+                reader.readAsDataURL(this.files[0]);
+            });
+        });
+    </script>
 {% endblock %}
