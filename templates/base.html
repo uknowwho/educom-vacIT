@@ -11,7 +11,7 @@
         <img id="logo" src="{{url_for('static', filename='img/vacit-logo-wit.png')}}">
         {% block header %}{% endblock %}
     </div>
-    <div class="content">{% block content %}{% endblock %}</div>
+    {% block content %}{% endblock %}
     {% block body %}{% endblock %}
 
     <footer>

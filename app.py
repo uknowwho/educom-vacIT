@@ -1,15 +1,26 @@
 import os
 from datetime import date
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, request
 from flask_sqlalchemy import SQLAlchemy
+from werkzeug.utils import secure_filename
 
+from forms import ProfileForm
 
 app = Flask(__name__)
 
 # Configuration for PostgreSQL connection
 db_password = os.environ["POSTGRES_PSWD"]
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:' + db_password + '@localhost/vacit'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config["SQLALCHEMY_DATABASE_URI"] = f"postgresql+psycopg2://postgres:{db_password}@localhost/vacit"
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+# Set up a secret key for form CSRF protection
+SECRET_KEY = os.urandom(32)
+app.config["SECRET_KEY"] = SECRET_KEY
+
+# Configure the upload folder and allowed extensions
+UPLOAD_FOLDER = 'uploads/resumes'
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # Initialize the SQLAlchemy object with the Flask app
 db = SQLAlchemy(app)
@@ -39,7 +50,7 @@ class User(db.Model):
     city = db.Column(db.String(50), nullable=True)
     profile_img = db.Column(db.Text, nullable=False)
     resume_pdf = db.Column(db.Text, nullable=True)
-    date_of_bearth = db.Column(db.Date, nullable=True)
+    date_of_birth = db.Column(db.Date, nullable=True)
     mobile = db.Column(db.String(20), nullable=True)
 
     jobs = db.relationship('Job', back_populates='company', foreign_keys='Job.company_id')
@@ -102,10 +113,32 @@ def index():
 
     return render_template("index.html", jobs=jobs_data)
 
-# @app.route("/profile", methods=["POST", "GET"])
-# def profile():
-#     return "Hello Profile!"
-#     return render_template("")
+@app.route("/profile", methods=["POST", "GET"])
+def profile():
+    # Find user by emailadress cookie
+    user = db.session.query(User).filter(User.email == "florianvdsteen@gmail.com").first()
+    if user is None:
+        redirect('/login')
+
+    form = ProfileForm(obj=user)
+    if request.method == "POST" and form.validate_on_submit():
+        form.populate_obj(user)
+
+        # Handle resume upload
+        if form.resume_pdf.data:
+            filename = secure_filename(form.resume_pdf.data.filename)
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+
+            # Save to server
+            form.resume_pdf.data.save(file_path)
+
+            # Save path to users table
+            user.resume_pdf = file_path
+
+        db.session.commit()
+        return redirect('/profile')
+   
+    return render_template("profile.html", form=form)
 
 
 if __name__ == "__main__":

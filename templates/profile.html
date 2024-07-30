@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='img/users-line-solid.svg') }}">
+    <title>Mijn VacIT Profiel</title>
+{% endblock %}
+
+{% block header %}
+    <li id="menu">
+        <ul>MIJN PROFIEL</ul>
+        <ul>MIJN SOLLICITATIES</ul>
+        <ul>UITLOGGEN</ul>
+    </li>
+{% endblock %}
+
+{% block content %}
+    <div class="white-background">
+        <div class="main-content">
+            <div class="profile-img"></div>
+            <div class="profile">
+                <h2>MIJN PROFIEL</h2>
+                <form method="POST" action="profile" enctype="multipart/form-data">
+                    {{ form.hidden_tag() }}
+                    <div>
+                        {{ form.name.label }} {{ form.name() }}
+                        {% if form.name.errors %}
+                            <ul>
+                                {% for error in form.name.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                    <div>
+                        {{ form.last_name.label }} {{ form.last_name() }}
+                    </div>
+                    <div>
+                        {{ form.email.label }} {{ form.email() }}
+                        {% if form.email.errors %}
+                            <ul>
+                                {% for error in form.email.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                    <div>
+                        {{ form.date_of_birth.label }} {{ form.date_of_birth() }}
+                    </div>
+                    <div>
+                        {{ form.mobile.label }} {{ form.mobile() }}
+                    </div>
+                    <div>
+                        {{ form.address.label }} {{ form.address() }}
+                    </div>
+                    <div>
+                        {{ form.postal_code.label }} {{ form.postal_code() }}
+                    </div>
+                    <div>
+                        {{ form.city.label }} {{ form.city() }}
+                    </div>
+                    <div>
+                        {{ form.motivation.label }} {{ form.motivation() }}
+                    </div>
+                    <div>
+                        {{ form.resume_pdf.label }} {{ form.resume_pdf() }}
+                        {% if form.resume_pdf.errors %}
+                            <ul>
+                                {% for error in form.resume_pdf.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                    <div>
+                        {{ form.submit() }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

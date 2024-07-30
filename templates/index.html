@@ -12,24 +12,26 @@
     </li>
 {% endblock %}
 {% block content %}
-    <div class="main-content">
-        <div class="slider"></div>
-        <div class="jobs">
-            {% if jobs | length < 1 %}
-           
-            {% else %}
-            <li>
-                {% for job in jobs %}
-                    <ul>
-                        <img class="job_icon" src="{{url_for('static', filename=job['technique_icon'])}}">
-                        <span>{{ job['post_date'] }}</span>
-                        <h2>{{ job['title'] }} voor {{ job['company_name'] }}</h2>
-                        <p><i>{{ job['description'] }}</i></p>
-                        <img id="arrow" src="{{url_for('static', filename='img/icons8-arrow-50.png')}}">
-                    </ul>
-                {% endfor %}
-            </li>
-            {% endif %}
+    <div class="orange-background">
+        <div class="main-content">
+            <div class="slider"></div>
+            <div class="jobs">
+                {% if jobs | length < 1 %}
+            
+                {% else %}
+                <li>
+                    {% for job in jobs %}
+                        <ul>
+                            <img class="job_icon" src="{{url_for('static', filename=job['technique_icon'])}}">
+                            <span>{{ job['post_date'] }}</span>
+                            <h2>{{ job['title'] }} voor {{ job['company_name'] }}</h2>
+                            <p><i>{{ job['description'] }}</i></p>
+                            <img id="arrow" src="{{url_for('static', filename='img/icons8-arrow-50.png')}}">
+                        </ul>
+                    {% endfor %}
+                </li>
+                {% endif %}
+            </div>
         </div>
     </div>
 {% endblock %}
