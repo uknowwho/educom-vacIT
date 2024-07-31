@@ -1,10 +1,11 @@
 import os
 from datetime import date
-from flask import Flask, render_template, redirect, request, send_from_directory
+from flask import Flask, render_template, session, redirect, request, flash, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.utils import secure_filename
+from werkzeug.security import check_password_hash
 
-from forms import ProfileForm
+from forms import ProfileForm, LoginForm
 
 app = Flask(__name__)
 
@@ -115,8 +116,8 @@ def index():
 
 @app.route("/profile", methods=["POST", "GET"])
 def profile():
-    # Find user by emailadress cookie
-    user = db.session.query(User).filter(User.email == "florianvdsteen@gmail.com").first()
+    # Find user by user cookie
+    user = db.session.query(User).filter(User.id == session['user_id']).first()
     if user is None:
         redirect('/login')
 
@@ -149,6 +150,19 @@ def profile():
         return redirect('/profile')
    
     return render_template("profile.html", form=form)
+
+@app.route("/login", methods=["POST", "GET"])
+def login():
+    form = LoginForm()
+    if request.method == "POST" and form.validate_on_submit():
+        user = db.session.query(User).filter(User.email == form.email.data).first()
+        if user and user.pswd == form.password.data:
+            session['user_id'] = user.id
+            return redirect('profile')
+        else:
+            flash('Invalid email or password')
+
+    return render_template("login.html", form=form)
 
 @app.route('/uploads/resumes/<name>')
 def download_file(name):

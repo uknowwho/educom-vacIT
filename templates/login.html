@@ -1,0 +1,46 @@
+{% extends 'base.html'%}
+
+{% block head %}
+    <link rel="icon" type="image/x-icon" href="{{url_for('static', filename='img/users-line-solid.svg')}}"> 
+    <title>Login: Vac!T</title>
+{% endblock %}
+
+{% block header %}
+    <li id="menu">
+        <a href="/register.html"><ul>REGISTREREN</ul></a>
+        <a href="/login"><ul>INLOGGEN</ul></a>
+    </li>
+{% endblock %}
+
+{% block content %}
+    <div class="white-background">
+        <div class="main-content">
+        <div class="login">
+        <h1 id="login-title">LOGIN</h1>
+        <form method="POST" action="{{ url_for('login') }}">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                {{ form.email.label(class="form-label") }}
+                {{ form.email(class="form-input") }}
+            </div>
+            <div class="form-group">
+                {{ form.password.label(class="form-label") }}
+                {{ form.password(class="form-input") }}
+            </div>
+            <div class="form-group">
+                {{ form.submit(class="form-input") }}
+            </div>
+        </form>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+    </div>
+</div>
+</div>
+{% endblock %}

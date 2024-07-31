@@ -78,6 +78,16 @@ h2, h4 {
     cursor: pointer;
 }
 
+#menu a, a:visited {
+    margin-right: 2%;
+    text-decoration: none;
+    color: var(--white);
+}
+
+#menu a:hover {
+    text-decoration: underline;
+}
+
 #logo {
     width: 30%;
     display: inline;
@@ -129,6 +139,13 @@ h2, h4 {
 
 .jobs > li > ul > h2 {
     color: var(--white);
+}
+
+.login {
+    max-width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10vh;
 }
 
 .profile {
@@ -195,10 +212,13 @@ h2, h4 {
     border-bottom: 2px solid #ff4500; /* Optional: change color on focus */
 }
 
-
 #profile-img {
     width: 100px;
     height: 100px;
+}
+
+#login-title {
+    color: var(--orange);
 }
 
 footer {
