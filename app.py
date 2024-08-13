@@ -5,7 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.utils import secure_filename
 from werkzeug.security import check_password_hash
 
-from forms import ProfileForm, LoginForm
+from forms import ProfileForm, LoginForm, ApplicationForm
 
 app = Flask(__name__)
 
@@ -83,7 +83,7 @@ class CandidateJob(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     job_id = db.Column(db.Integer, db.ForeignKey('jobs.id'), nullable=False)
     candidate_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    motivation = db.Column(db.Text, nullable=False)
+    motivation = db.Column(db.Text, nullable=True)
 
     job = db.relationship('Job', back_populates='candidate_jobs', foreign_keys=[job_id])
     candidate = db.relationship('User', back_populates='candidate_jobs', foreign_keys=[candidate_id])
@@ -116,7 +116,8 @@ def index():
 
 @app.route("/profile", methods=["POST", "GET"])
 def profile():
-    # Find user by user cookie
+    # Find user by user session variable
+    # TODO: catch KeyError for missing session['user_id']
     user = db.session.query(User).filter(User.id == session['user_id']).first()
     if user is None:
         redirect('/login')
@@ -150,6 +151,23 @@ def profile():
         return redirect('/profile')
    
     return render_template("profile.html", form=form)
+
+@app.route("/jobs/<job_id>", methods=["GET", "POST"])
+def job_detail(job_id):
+    # TODO: add 404 page
+    job = db.session.query(Job).filter(Job.id == job_id).first()
+    company = db.session.query(User).filter(User.id == job.company_id).first()
+    technique = db.session.query(Technique).filter(Technique.id == job.technique_id).first()
+
+    form = ApplicationForm()
+    if request.method == "POST" and form.validate_on_submit():
+        # Add the application to the candidate_jobs table
+        # TODO: add check when candidate has already applied
+        new_application = CandidateJob(job_id=job.id, candidate_id=session['user_id'])
+        db.session.add(new_application)
+        db.session.commit()
+
+    return render_template("job.html", job=job, company=company, technique=technique, form=form)
 
 @app.route("/login", methods=["POST", "GET"])
 def login():

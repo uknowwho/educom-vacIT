@@ -38,3 +38,6 @@ class LoginForm(FlaskForm):
     email = StringField('Email:', validators=[DataRequired(message="Vul je email in"), Email(message="Vul een geldig e-mailadres in")])
     password = PasswordField('Wachtwoord:', validators=[DataRequired(message="Vul je wachtwoord in")])
     submit = SubmitField('Login')
+
+class ApplicationForm(FlaskForm):
+    submit = SubmitField('Solliciteer Direct!')

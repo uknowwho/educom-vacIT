@@ -44,7 +44,7 @@ h1 {
     margin: 0;
 }
 
-h2, h4 {
+h2, h3, h4, h5 {
     font-family: var(--titles), var(--regular);
     margin: 0;
 }
@@ -141,14 +141,7 @@ h2, h4 {
     color: var(--white);
 }
 
-.login {
-    max-width: fit-content;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 10vh;
-}
-
-.profile {
+.profile, .login, .job {
     max-width: fit-content;
     margin-left: auto;
     margin-right: auto;
@@ -219,6 +212,34 @@ h2, h4 {
 
 #login-title {
     color: var(--orange);
+}
+
+.job {
+    width: 50%;
+}
+
+.job > img {
+    height: 15%;
+    width: 15%;
+    float: right;
+}
+
+.job > p {
+    color: darkgrey;
+    font-style: italic;
+}
+
+.job-info-line {
+    display: flex;
+}
+
+.job-info-line > h3 {
+    margin: 1% 2% 0% 0%;
+}
+
+#job-info-heading {
+    color: var(--orange);
+    font-family: var(--titles), var(--regular);
 }
 
 footer {

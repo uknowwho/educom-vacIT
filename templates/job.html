@@ -1,0 +1,37 @@
+{% extends 'base.html'%}
+
+{% block head %}
+    <link rel="icon" type="image/x-icon" href="{{url_for('static', filename='img/users-line-solid.svg')}}"> 
+    <title>{{ job.title }} bij {{ company.name }}</title>
+{% endblock %}
+
+{% block header %}
+    <li id="menu">
+        <a href="/register.html"><ul>REGISTREREN</ul></a>
+        <a href="/login"><ul>INLOGGEN</ul></a>
+    </li>
+{% endblock %}
+
+{% block content %}
+    <div class="white-background">
+        <div class="main-content">
+            <div class="job">
+                {{ job.post_date }}
+                <h1>{{ job.title }} voor {{ company.name }}</h1><img src="{{ url_for('static', filename=technique.logo_img) }}">
+                <img src="{{ url_for('show_img', name=company.profile_img[17:]) }}" alt="Profiel Foto">
+                <div class="job-info-line">
+                    <h3><span id="job-info-heading">Niveau</span>: {{ job.level }}</h3>
+                    <h3><span id="job-info-heading">Locatie</span>: {{ job.location }}</h3></div>
+                <p>{{ job.description }}</p>
+
+                <form method="POST" action="{{ url_for('job_detail', job_id=job.id) }}">
+                    {{ form.hidden_tag() }}
+                    <div class="form-group">
+                        {{ form.submit(class="form-input") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

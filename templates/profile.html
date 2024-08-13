@@ -21,6 +21,7 @@
                 <form method="POST" action="profile" enctype="multipart/form-data">
                     {{ form.hidden_tag() }}
                 <div class="profile-img-container">
+                    <!-- TODO: netter oplossen -->
                     <img src="{{ url_for('show_img', name=form.profile_img.data[17:]) }}" alt="Profiel Foto" id="profile-img">
                     {{ form.profile_img(class="file-input", id="profile-img-input") }}
                 </div>
