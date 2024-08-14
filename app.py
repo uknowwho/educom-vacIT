@@ -2,6 +2,7 @@ import os
 from datetime import date
 from flask import Flask, render_template, session, redirect, request, flash, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager, UserMixin, current_user, login_user, logout_user
 from werkzeug.utils import secure_filename
 from werkzeug.security import check_password_hash
 
@@ -26,6 +27,11 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 # Initialize the SQLAlchemy object with the Flask app
 db = SQLAlchemy(app)
 
+# Setup Login Manager
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
+
 # Define the ORM for the database
 class Technique(db.Model):
     __tablename__ = 'techniques'
@@ -38,7 +44,7 @@ class Technique(db.Model):
     def __repr__(self) -> str:
         return f"Technique {self.name}"
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     role = db.Column(db.String(20), nullable=False)
@@ -92,6 +98,11 @@ class CandidateJob(db.Model):
         return f"Candidate {self.candidate_id} for Job {self.job_id}"
 
 
+@login_manager.user_loader
+def load_user(id):
+    return db.session.get(User, int(id))
+
+
 @app.route("/", methods=["GET"])
 def index():
     # Query to get all jobs along with their associated companies and techniques
@@ -120,7 +131,7 @@ def profile():
     # TODO: catch KeyError for missing session['user_id']
     user = db.session.query(User).filter(User.id == session['user_id']).first()
     if user is None:
-        redirect('/login')
+        return redirect('/login')
 
     form = ProfileForm(obj=user)
     if request.method == "POST" and form.validate_on_submit():
@@ -171,16 +182,24 @@ def job_detail(job_id):
 
 @app.route("/login", methods=["POST", "GET"])
 def login():
+    if current_user.is_authenticated:
+        return redirect("/")
+
     form = LoginForm()
     if request.method == "POST" and form.validate_on_submit():
         user = db.session.query(User).filter(User.email == form.email.data).first()
         if user and user.pswd == form.password.data:
-            session['user_id'] = user.id
-            return redirect('profile')
+            login_user(user)
+            return redirect('/')
         else:
             flash('Invalid email or password')
 
     return render_template("login.html", form=form)
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect('/')
 
 @app.route('/uploads/resumes/<name>')
 def download_file(name):

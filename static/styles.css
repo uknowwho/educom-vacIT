@@ -141,6 +141,10 @@ h2, h3, h4, h5 {
     color: var(--white);
 }
 
+.jobs > li > ul {
+    width: 80%;
+}
+
 .profile, .login, .job {
     max-width: fit-content;
     margin-left: auto;

@@ -8,8 +8,19 @@
 </head>
 <body>
     <div class="header">
-        <img id="logo" src="{{url_for('static', filename='img/vacit-logo-wit.png')}}">
-        {% block header %}{% endblock %}
+        <a href="/"><img id="logo" src="{{url_for('static', filename='img/vacit-logo-wit.png')}}"></a>
+        {% block header %}
+        <li id="menu">
+        {% if current_user.is_anonymous %}
+            <a href="/register.html"><ul>REGISTREREN</ul></a>
+            <a href="/login"><ul>INLOGGEN</ul></a>
+        {% else %}
+            <a href="/profile"><ul>MIJN PROFIEL</ul></a>
+            <ul>MIJN SOLLICITATIES</ul>
+            <a href="/logout"><ul>UITLOGGEN</ul></a>
+        {% endif %}
+        </li>
+        {% endblock %}
     </div>
     {% block content %}{% endblock %}
     {% block body %}{% endblock %}
