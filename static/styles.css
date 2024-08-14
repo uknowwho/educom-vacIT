@@ -78,9 +78,8 @@ h2, h3, h4, h5 {
     cursor: pointer;
 }
 
-#menu a, a:visited {
+#menu a, #menu a:visited {
     margin-right: 2%;
-    text-decoration: none;
     color: var(--white);
 }
 

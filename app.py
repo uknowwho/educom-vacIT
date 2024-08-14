@@ -1,4 +1,5 @@
 import os
+import sys
 from datetime import date
 from flask import Flask, render_template, session, redirect, request, flash, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
@@ -99,8 +100,8 @@ class CandidateJob(db.Model):
 
 
 @login_manager.user_loader
-def load_user(id):
-    return db.session.get(User, int(id))
+def load_user(user_id):
+    return db.session.query(User).filter(User.id == int(user_id)).first()
 
 
 @app.route("/", methods=["GET"])
@@ -127,38 +128,35 @@ def index():
 
 @app.route("/profile", methods=["POST", "GET"])
 def profile():
-    # Find user by user session variable
-    # TODO: catch KeyError for missing session['user_id']
-    user = db.session.query(User).filter(User.id == session['user_id']).first()
-    if user is None:
-        return redirect('/login')
+    if current_user.is_anonymous:
+        return redirect('/')
 
-    form = ProfileForm(obj=user)
+    form = ProfileForm(request.form, obj=current_user)
     if request.method == "POST" and form.validate_on_submit():
-        form.populate_obj(user)
+        form.populate_obj(current_user)
 
-        # Don't handle resume upload if no change (data is a str)
-        if form.resume_pdf.data and not isinstance(form.resume_pdf.data, str):
-            filename = secure_filename(form.resume_pdf.data.filename)
+        # Manually handle resume upload
+        resume_file = request.files.get('resume_pdf')
+        if resume_file:
+            filename = secure_filename(resume_file.filename)
             upload_resumes = app.config['UPLOAD_FOLDER'] + '/resumes'
             file_path = os.path.join(upload_resumes, filename)
+            resume_file.save(file_path)
+            current_user.resume_pdf = file_path
 
-            # Save to server
-            form.resume_pdf.data.save(file_path)
-
-            # Save path to users table
-            user.resume_pdf = file_path
-
-        # Don't handle profile img upload if no change (data is a str)
-        if form.profile_img.data and not isinstance(form.profile_img.data, str):
-            filename = secure_filename(form.profile_img.data.filename)
+        # Manually handle profile image upload
+        profile_img_file = request.files.get('profile_img')
+        if profile_img_file:
+            filename = secure_filename(profile_img_file.filename)
             upload_profiles = os.path.join(app.config['UPLOAD_FOLDER'], 'profiles')
             os.makedirs(upload_profiles, exist_ok=True)
             file_path = os.path.join(upload_profiles, filename)
-            form.profile_img.data.save(file_path)
-            user.profile_img = file_path
+            profile_img_file.save(file_path)
+            current_user.profile_img = file_path
 
+        # Commit the changes to the database
         db.session.commit()
+
         return redirect('/profile')
    
     return render_template("profile.html", form=form)
@@ -172,11 +170,11 @@ def job_detail(job_id):
 
     form = ApplicationForm()
     if request.method == "POST" and form.validate_on_submit():
-        # Add the application to the candidate_jobs table
-        # TODO: add check when candidate has already applied
-        new_application = CandidateJob(job_id=job.id, candidate_id=session['user_id'])
-        db.session.add(new_application)
-        db.session.commit()
+        # Add the application to the candidate_jobs table only if none existant
+        if not db.session.query(CandidateJob).filter(CandidateJob.job_id == job.id).filter(CandidateJob.candidate_id == current_user.id).first():
+            new_application = CandidateJob(job_id=job.id, candidate_id=current_user.id)
+            db.session.add(new_application)
+            db.session.commit()
 
     return render_template("job.html", job=job, company=company, technique=technique, form=form)
 

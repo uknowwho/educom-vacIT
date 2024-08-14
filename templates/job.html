@@ -17,12 +17,14 @@
                     <h3><span id="job-info-heading">Locatie</span>: {{ job.location }}</h3></div>
                 <p>{{ job.description }}</p>
 
+                {% if not current_user.is_anonymous %}
                 <form method="POST" action="{{ url_for('job_detail', job_id=job.id) }}">
                     {{ form.hidden_tag() }}
                     <div class="form-group">
                         {{ form.submit(class="form-input") }}
                     </div>
                 </form>
+                {% endif %}
             </div>
         </div>
     </div>

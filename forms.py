@@ -29,9 +29,8 @@ class ProfileForm(FlaskForm):
     address = StringField('Adres', validators=[Optional()])
     postal_code = StringField('Postcode', validators=[Optional()])
     city = StringField('Woonplaats', validators=[Optional()])
-    motivation = TextAreaField('Motivatie', validators=[Optional()])
     resume_pdf = FileField('CV (.pdf)', validators=[FileAllowed(['pdf'], 'PDF only!')])
-    profile_img = FileField(validators=[DataRequired()])
+    profile_img = FileField(validators=[])
     submit = SubmitField('Opslaan')
 
 class LoginForm(FlaskForm):
