@@ -47,5 +47,6 @@ erDiagram
         int job_id FK
         int candidate_id FK 
         str motivation
+        bool is_invited
     }
 ```
