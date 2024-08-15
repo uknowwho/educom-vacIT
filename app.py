@@ -91,6 +91,7 @@ class CandidateJob(db.Model):
     job_id = db.Column(db.Integer, db.ForeignKey('jobs.id'), nullable=False)
     candidate_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     motivation = db.Column(db.Text, nullable=True)
+    is_invited = db.Column(db.Boolean, nullable=False, default=False)
 
     job = db.relationship('Job', back_populates='candidate_jobs', foreign_keys=[job_id])
     candidate = db.relationship('User', back_populates='candidate_jobs', foreign_keys=[candidate_id])
@@ -236,6 +237,24 @@ def download_file(name):
 @app.route('/uploads/profiles/<name>')
 def show_img(name):
     return send_from_directory('uploads/profiles/', name)
+
+@app.route('/applications')
+def applications():
+    # SQLAlchemy query
+    table_info = db.session.query(
+        CandidateJob.candidate_id,
+        CandidateJob.job_id,
+        CandidateJob.is_invited,
+        Job.id,
+        Job.post_date,
+        Job.title,
+        Job.company_id,
+        User.name
+    ).join(Job, CandidateJob.job_id == Job.id, isouter=True) \
+    .join(User, Job.company_id == User.id, isouter=True) \
+    .filter(CandidateJob.candidate_id == 7).all()
+
+    return render_template("applications.html", table_info=table_info)
 
 if __name__ == "__main__":
     with app.app_context():

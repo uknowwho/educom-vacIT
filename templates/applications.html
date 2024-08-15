@@ -1,0 +1,38 @@
+{% extends 'white-base.html'%}
+
+{% block head %}
+    <link rel="icon" type="image/x-icon" href="{{url_for('static', filename='img/users-line-solid.svg')}}"> 
+    <title>Mijn Sollicitaties</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sollicitaties.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="main-content">
+        <div class="applications">
+            <h1 id="my-applications">MIJN SOLLICITATIES</h1>
+            <div id="profile-container">
+                <img id="profile-img" src="{{ url_for('show_img', name=current_user.profile_img[17:]) }}" alt="Profile Image">
+            </div>
+            <table id="applications-table">
+                <thead>
+                    <tr>
+                        <th>Datum</th>
+                        <th>Vacature</th>
+                        <th>Bedrijf</th>
+                        <th>Uitgenodigd</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for application in table_info %}
+                        <tr>
+                            <td>{{ application.post_date }}</td>
+                            <td><a href="{{ url_for('job_detail', job_id=application.job_id) }}">{{ application.title }}</a></td>
+                            <td>{{ application.name }}</td>
+                            <td>{% if application.is_invited %} <img class="check-icon" src="{{ url_for('static', filename='img/check-mark.svg') }}" alt="Invited"> {% endif %}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

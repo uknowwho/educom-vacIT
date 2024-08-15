@@ -142,7 +142,9 @@ ul {
 
 .jobs {
     list-style-type: none;
-    position: relative;
+    max-width: 80%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* Default SVG color */
@@ -164,7 +166,7 @@ ul {
     color: var(--white);
 }
 
-.profile, .login, .job, .register {
+.profile, .login, .job, .register, .applications {
     max-width: fit-content;
     margin-left: auto;
     margin-right: auto;
@@ -189,7 +191,7 @@ ul {
     display: none;
 }
 
-#my-profile {
+#my-profile, #my-applications {
     color: var(--orange);
 }
 
@@ -262,6 +264,61 @@ ul {
 #job-info-heading {
     color: var(--orange);
     font-family: var(--titles), var(--regular);
+}
+
+#profile-container {
+    float: left;
+    margin-right: 20px;
+}
+
+#profile-img {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+
+#applications-table {
+    width: 80%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+#applications-table th {
+    text-align: left;
+    background-color: #F26522;
+    color: white;
+    padding: 10px;
+}
+
+#applications-table td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+#applications-table a {
+    color: #F26522;
+    text-decoration: none;
+}
+
+#applications-table a:hover {
+    text-decoration: underline;
+}
+
+tbody tr:hover {
+    background-color: #f9f9f9;
+}
+
+/* Clear floats */
+.applications::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.check-icon {
+    width: 24px;
+    height: 24px;
 }
 
 footer {
