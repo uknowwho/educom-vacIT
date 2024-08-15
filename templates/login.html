@@ -1,4 +1,4 @@
-{% extends 'base.html'%}
+{% extends 'white-base.html'%}
 
 {% block head %}
     <link rel="icon" type="image/x-icon" href="{{url_for('static', filename='img/users-line-solid.svg')}}"> 
@@ -6,8 +6,7 @@
 {% endblock %}
 
 {% block content %}
-    <div class="white-background">
-        <div class="main-content">
+    <div class="main-content">
         <div class="login">
         <h1 id="login-title">LOGIN</h1>
         <form method="POST" action="{{ url_for('login') }}">
@@ -34,6 +33,5 @@
             {% endif %}
         {% endwith %}
     </div>
-</div>
 </div>
 {% endblock %}

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='styles.css')}}">
+    {% block head %}{% endblock %}
+</head>
+<body class="white-background">
+    <div class="header">
+        <a href="/"><img id="logo" src="{{url_for('static', filename='img/vacit-logo-wit.png')}}"></a>
+        {% block header %}
+        <ul id="menu">
+        {% if current_user.is_anonymous %}
+            <a href="/register"><li>REGISTREREN</li></a>
+            <a href="/login"><li>INLOGGEN</li></a>
+        {% else %}
+            <a href="/profile"><li>MIJN PROFIEL</li></a>
+            <a href="/applications"><li>MIJN SOLLICITATIES</li></a>
+            <a href="/logout"><li>UITLOGGEN</li></a>
+        {% endif %}
+        </ul>
+        {% endblock %}
+    </div>
+    {% block content %}{% endblock %}
+    {% block body %}{% endblock %}
+
+    <footer>
+        <img src="{{url_for('static', filename='img/vacit-logo-wit.png')}}">
+        <div id="adress">        
+            <h2>Adres</h2>
+            <address>Papendorpseweg 95 <br> 3528 BJ Utrecht </address>
+        </div>
+        <div id="privacy">
+            <h2>Privacy</h2>
+            <p><i>Deze website is louter een proof of concept. Er kunnen geen rechten aan worden ontleend.</i></p>
+        </div>
+
+    </footer>
+</body>
+</html>

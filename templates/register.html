@@ -1,4 +1,4 @@
-{% extends 'base.html'%}
+{% extends 'white-base.html'%}
 
 {% block head %}
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='img/users-line-solid.svg') }}"> 
@@ -6,7 +6,6 @@
 {% endblock %}
 
 {% block content %}
-    <div class="white-background">
         <div class="main-content">
             <div class="register">
                 <h1 id="register-title">REGISTRATIE</h1>
@@ -68,5 +67,4 @@
                 {% endwith %}
             </div>
         </div>
-    </div>
 {% endblock %}

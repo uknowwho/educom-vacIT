@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'white-base.html' %}
 
 {% block head %}
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='img/users-line-solid.svg') }}">
@@ -6,7 +6,6 @@
 {% endblock %}
 
 {% block content %}
-    <div class="white-background">
         <div class="main-content">
             <div class="profile">
                 <h1 id="my-profile">MIJN PROFIEL</h1>
@@ -83,7 +82,6 @@
                     </div>
                 </form>
             </div>
-        </div>
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', function() {

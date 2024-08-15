@@ -116,7 +116,6 @@ h2, h3, h4, h5 {
     flex: 1;
     margin-top: 5%;
     position: relative;
-    background-color: var(--orange);
 }
 
 .jobs > ul > li {
@@ -129,7 +128,7 @@ h2, h3, h4, h5 {
     background-color: var(--orange);
 }
 
-.white_background {
+.white-background {
     background-color: var(--white);
 } 
 
@@ -257,6 +256,7 @@ footer {
     align-items: center;
     position: relative;
     margin-top: 1px;
+    z-index: auto;
 }
 
 footer > div {
@@ -288,6 +288,6 @@ footer::before {
     transform: rotate(-1deg);
     /* background: linear-gradient(to top right, var(--orange) 10%, transparent 10%); */
     box-shadow: 0 -10px 10px rgba(0, 0, 0, 0.1); /* Adjust the shadow as needed */
-    z-index: 0; /* Place it in front of the footer content */
+    z-index: -1; /* Place it in front of the footer content */
     background-color: var(--orange);
 }
