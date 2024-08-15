@@ -52,6 +52,10 @@ h2, h3, h4, h5 {
     font-family: var(--regular);
 }
 
+ul {
+    list-style-type: none;
+}
+
 .header {
     font-family: var(--headings), var(--regular);
     background-color: var(--gray);
@@ -64,11 +68,10 @@ h2, h3, h4, h5 {
     color: var(--white);
     list-style-type: none;
     padding: 0;
-    margin: 0;
+    margin: -45px 0 -1% 0;
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
-    margin-top: -45px;
     align-items: center;
     position: relative;
 }
@@ -124,6 +127,11 @@ h2, h3, h4, h5 {
     z-index: 2; /* Ensure the job listings are above other elements */
 }
 
+.jobs > ul > li > a, .jobs > ul > li > a:visited {
+    text-decoration: none;
+    color: var(--black);
+}
+
 .orange-background {
     background-color: var(--orange);
 }
@@ -137,9 +145,19 @@ h2, h3, h4, h5 {
     position: relative;
 }
 
-.job_icon {
-    width: 10%;
+/* Default SVG color */
+.job_icon > img {
+    filter: invert(0%) sepia(100%) saturate(0%) hue-rotate(0deg) brightness(0%) contrast(100%);
+    transition: filter 0.1s ease;
     height: 10%;
+    width: 10%;
+    float: right;
+}
+
+/* SVG animation */
+.job_icon > img:hover {
+    filter: invert(100%) sepia(0%) saturate(7481%) hue-rotate(113deg) brightness(108%) contrast(100%);
+    transition: filter 0.1s ease;
 }
 
 .jobs > ul > li > h2 {
@@ -224,9 +242,8 @@ h2, h3, h4, h5 {
 }
 
 .job > img {
-    height: 15%;
-    width: 15%;
-    float: right;
+    width: 10%;
+    height: 10%;
 }
 
 .job > p {

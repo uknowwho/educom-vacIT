@@ -12,12 +12,12 @@
                 {% for job in jobs %}
                     <li>
                         <a href="{{ url_for('job_detail', job_id=job['job_id']) }}">
-                            <img class="job_icon" src="{{url_for('static', filename=job['technique_icon'])}}"/>
+                            <div class="job_icon"><img src="{{url_for('static', filename=job['technique_icon'])}}"/></div></a>
                             <span>{{ job['post_date'] }}</span>
                             <h2>{{ job['title'] }} voor {{ job['company_name'] }}</h2>
                             
-                            <p><i>{{ job['description'] }}</i></p>
-                           <img id="arrow" src="{{ url_for('static', filename='img/icons8-arrow-50.png') }}"/>
+                            <a href="{{ url_for('job_detail', job_id=job['job_id']) }}"><p><i>{{ job['description'] }}</i></p>
+                           <img id="arrow" src="{{ url_for('static', filename='img/icons8-arrow-50.png') }}"/></a>
                         </a>
                     </li>
                     {% endfor %}
