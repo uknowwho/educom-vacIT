@@ -2,7 +2,7 @@ from datetime import datetime
 from flask_wtf import FlaskForm
 from wtforms import StringField, DateField, SubmitField, TextAreaField, PasswordField
 from flask_wtf.file import FileField
-from wtforms.validators import DataRequired, Email, Optional
+from wtforms.validators import DataRequired, Email, Optional, EqualTo
 from flask_wtf.file import FileAllowed
 
 class NullableDateField(DateField):
@@ -40,3 +40,11 @@ class LoginForm(FlaskForm):
 
 class ApplicationForm(FlaskForm):
     submit = SubmitField('Solliciteer Direct!')
+
+class RegisterForm(FlaskForm):
+    email = StringField('Email:', validators=[DataRequired(message="Vul je e-mail in"), Email(message="Vul een geldig e-mailadres in")])
+    pswd = PasswordField('Wachtwoord:', validators=[DataRequired(message="Vul een sterk wachtwoord in"), EqualTo('pswd2', message="Wachtwoorden moeten overeenkomen")])
+    pswd2 = PasswordField('Herhaal wachtwoord:', validators=[DataRequired(message="Herhaal je wachtwoord")])
+    name = StringField("Voornaam:", validators=[DataRequired(message="Vul je voornaam in")])
+    last_name = StringField("Achternaam:", validators=[DataRequired(message="Vul je achternaam in")])
+    submit = SubmitField("Registreer!")

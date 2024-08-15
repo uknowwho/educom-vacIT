@@ -1,0 +1,72 @@
+{% extends 'base.html'%}
+
+{% block head %}
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='img/users-line-solid.svg') }}"> 
+    <title>Register: Vac!T</title>
+{% endblock %}
+
+{% block content %}
+    <div class="white-background">
+        <div class="main-content">
+            <div class="register">
+                <h1 id="register-title">REGISTRATIE</h1>
+                <form method="POST" action="register">
+                    {{ form.hidden_tag() }}
+                    <div class="form-group">
+                        {{ form.name.label(class="form-label") }}
+                        {{ form.name(class="form-input") }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.last_name.label(class="form-label") }}
+                        {{ form.last_name(class="form-input") }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.email.label(class="form-label") }}
+                        {{ form.email(class="form-input") }}
+                        {% if form.email.errors %}
+                            <ul>
+                                {% for error in form.email.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ form.pswd.label(class="form-label") }}
+                        {{ form.pswd(class="form-input") }}
+                        {% if form.pswd.errors %}
+                            <ul>
+                                {% for error in form.pswd.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ form.pswd2.label(class="form-label") }}
+                        {{ form.pswd2(class="form-input") }}
+                        {% if form.pswd2.errors %}
+                            <ul>
+                                {% for error in form.pswd2.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ form.submit(class="form-input") }}
+                    </div>
+                </form>
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <ul>
+                            {% for message in messages %}
+                                <li>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% endwith %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

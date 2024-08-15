@@ -6,20 +6,20 @@
     <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='styles.css')}}">
     {% block head %}{% endblock %}
 </head>
-<body>
+<body class="orange-background">
     <div class="header">
         <a href="/"><img id="logo" src="{{url_for('static', filename='img/vacit-logo-wit.png')}}"></a>
         {% block header %}
-        <li id="menu">
+        <ul id="menu">
         {% if current_user.is_anonymous %}
-            <a href="/register.html"><ul>REGISTREREN</ul></a>
-            <a href="/login"><ul>INLOGGEN</ul></a>
+            <a href="/register"><li>REGISTREREN</li></a>
+            <a href="/login"><li>INLOGGEN</li></a>
         {% else %}
-            <a href="/profile"><ul>MIJN PROFIEL</ul></a>
-            <ul>MIJN SOLLICITATIES</ul>
-            <a href="/logout"><ul>UITLOGGEN</ul></a>
+            <a href="/profile"><li>MIJN PROFIEL</li></a>
+            <a href="/applications"><li>MIJN SOLLICITATIES</li></a>
+            <a href="/logout"><li>UITLOGGEN</li></a>
         {% endif %}
-        </li>
+        </ul>
         {% endblock %}
     </div>
     {% block content %}{% endblock %}
@@ -28,11 +28,11 @@
     <footer>
         <img src="{{url_for('static', filename='img/vacit-logo-wit.png')}}">
         <div id="adress">        
-            <h2>Adres</h4>
+            <h2>Adres</h2>
             <address>Papendorpseweg 95 <br> 3528 BJ Utrecht </address>
         </div>
         <div id="privacy">
-            <h2>Privacy</h4>
+            <h2>Privacy</h2>
             <p><i>Deze website is louter een proof of concept. Er kunnen geen rechten aan worden ontleend.</i></p>
         </div>
 

@@ -36,7 +36,6 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    /* background-color: var(--orange); */
 }
 
 h1 {
@@ -71,14 +70,16 @@ h2, h3, h4, h5 {
     justify-content: flex-end;
     margin-top: -45px;
     align-items: center;
+    position: relative;
 }
 
-#menu ul {
-    margin-right: 2%;
+#menu li {
     cursor: pointer;
 }
 
 #menu a, #menu a:visited {
+    margin-right: 2%;
+    margin-bottom: 1%;
     margin-right: 2%;
     color: var(--white);
 }
@@ -99,7 +100,7 @@ h2, h3, h4, h5 {
 .header::after {
     content: '';
     display: block;
-    position: absolute;
+    position: relative;
     bottom: -1.8vw;
     left: 0;
     width: 100%;
@@ -107,28 +108,34 @@ h2, h3, h4, h5 {
     background: linear-gradient(to bottom right, var(--orange) 10%, transparent 10%);
     transform: rotate(-1deg);
     box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
-    z-index: -1;
     background-color: var(--orange);
+    z-index: -1; /* Set a negative z-index to ensure it's behind the header but in front of other content */
 }
 
 .main-content {
     flex: 1;
     margin-top: 5%;
+    position: relative;
+    background-color: var(--orange);
+}
+
+.jobs > ul > li {
+    width: 80%;
+    position: relative;
+    z-index: 2; /* Ensure the job listings are above other elements */
 }
 
 .orange-background {
     background-color: var(--orange);
-    z-index: -2;
 }
 
 .white_background {
     background-color: var(--white);
-    z-index: -2;
-}
+} 
 
 .jobs {
-    float: right;
     list-style-type: none;
+    position: relative;
 }
 
 .job_icon {
@@ -136,15 +143,11 @@ h2, h3, h4, h5 {
     height: 10%;
 }
 
-.jobs > li > ul > h2 {
+.jobs > ul > li > h2 {
     color: var(--white);
 }
 
-.jobs > li > ul {
-    width: 80%;
-}
-
-.profile, .login, .job {
+.profile, .login, .job, .register {
     max-width: fit-content;
     margin-left: auto;
     margin-right: auto;
@@ -213,7 +216,7 @@ h2, h3, h4, h5 {
     height: 100px;
 }
 
-#login-title {
+#login-title, #register-title {
     color: var(--orange);
 }
 
@@ -228,7 +231,7 @@ h2, h3, h4, h5 {
 }
 
 .job > p {
-    color: darkgrey;
+    color: var(--gray);
     font-style: italic;
 }
 
@@ -253,7 +256,7 @@ footer {
     justify-content: flex-start;
     align-items: center;
     position: relative;
-    margin-top: auto;
+    margin-top: 1px;
 }
 
 footer > div {
@@ -285,6 +288,6 @@ footer::before {
     transform: rotate(-1deg);
     /* background: linear-gradient(to top right, var(--orange) 10%, transparent 10%); */
     box-shadow: 0 -10px 10px rgba(0, 0, 0, 0.1); /* Adjust the shadow as needed */
-    z-index: -1; /* Place it in front of the footer content */
+    z-index: 0; /* Place it in front of the footer content */
     background-color: var(--orange);
 }

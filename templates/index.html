@@ -1,4 +1,4 @@
-{% extends 'base.html'%}
+{% extends 'orange-base.html'%}
 
 {% block head %}
     <link rel="icon" type="image/x-icon" href="{{url_for('static', filename='img/users-line-solid.svg')}}"> 
@@ -6,27 +6,22 @@
 {% endblock %}
 
 {% block content %}
-    <div class="orange-background">
         <div class="main-content">
-            <div class="slider"></div>
             <div class="jobs">
-                <!-- TODO: if is overbodig/moet ingevuld -->
-                {% if jobs | length < 1 %}
-            
-                {% else %}
-                <li>
-                    {% for job in jobs %}
-                        <ul>
-                            <img class="job_icon" src="{{url_for('static', filename=job['technique_icon'])}}">
+                <ul>
+                {% for job in jobs %}
+                    <li>
+                        <a href="{{ url_for('job_detail', job_id=job['job_id']) }}">
+                            <img class="job_icon" src="{{url_for('static', filename=job['technique_icon'])}}"/>
                             <span>{{ job['post_date'] }}</span>
                             <h2>{{ job['title'] }} voor {{ job['company_name'] }}</h2>
+                            
                             <p><i>{{ job['description'] }}</i></p>
-                            <img id="arrow" src="{{url_for('static', filename='img/icons8-arrow-50.png')}}">
-                        </ul>
+                           <img id="arrow" src="{{ url_for('static', filename='img/icons8-arrow-50.png') }}"/>
+                        </a>
+                    </li>
                     {% endfor %}
-                </li>
-                {% endif %}
+                </ul>
             </div>
         </div>
-    </div>
 {% endblock %}

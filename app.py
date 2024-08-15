@@ -7,7 +7,7 @@ from flask_login import LoginManager, UserMixin, current_user, login_user, logou
 from werkzeug.utils import secure_filename
 from werkzeug.security import check_password_hash
 
-from forms import ProfileForm, LoginForm, ApplicationForm
+from forms import ProfileForm, LoginForm, ApplicationForm, RegisterForm
 
 app = Flask(__name__)
 
@@ -56,7 +56,7 @@ class User(db.Model, UserMixin):
     address = db.Column(db.String(200), nullable=True)
     postal_code = db.Column(db.String(10), nullable=True)
     city = db.Column(db.String(50), nullable=True)
-    profile_img = db.Column(db.Text, nullable=False)
+    profile_img = db.Column(db.Text, nullable=False, default='uploads\profiles\default.jpg')
     resume_pdf = db.Column(db.Text, nullable=True)
     date_of_birth = db.Column(db.Date, nullable=True)
     mobile = db.Column(db.String(20), nullable=True)
@@ -98,11 +98,9 @@ class CandidateJob(db.Model):
     def __repr__(self) -> str:
         return f"Candidate {self.candidate_id} for Job {self.job_id}"
 
-
 @login_manager.user_loader
 def load_user(user_id):
     return db.session.query(User).filter(User.id == int(user_id)).first()
-
 
 @app.route("/", methods=["GET"])
 def index():
@@ -198,6 +196,38 @@ def login():
 def logout():
     logout_user()
     return redirect('/')
+
+@app.route("/register", methods=["POST", "GET"])
+def register():
+    if current_user.is_authenticated:
+        return redirect("/")
+
+    form = RegisterForm()
+    if request.method == "POST" and form.validate_on_submit():
+        existing_user = db.session.query(User).filter(User.email == form.email.data).first()
+
+        if existing_user:
+            flash('Email address already registered')
+        else:
+            # Create a new user instance
+            new_user = User(
+                role='ROLE_CANDIDATE',
+                email=form.email.data,
+                pswd=form.pswd.data,
+                name=form.name.data,
+                last_name=form.last_name.data
+            )
+
+            # Add the new user to the session and commit
+            db.session.add(new_user)
+            db.session.commit()
+
+            # Log the user in after successful registration
+            login_user(new_user)
+
+            return redirect('/')
+
+    return render_template("register.html", form=form)
 
 @app.route('/uploads/resumes/<name>')
 def download_file(name):
