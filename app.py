@@ -138,7 +138,8 @@ def profile():
         resume_file = request.files.get('resume_pdf')
         if resume_file:
             filename = secure_filename(resume_file.filename)
-            upload_resumes = app.config['UPLOAD_FOLDER'] + '/resumes'
+            upload_resumes = os.path.join(app.config['UPLOAD_FOLDER'], 'resumes')
+            os.makedirs(upload_resumes, exist_ok=True)
             file_path = os.path.join(upload_resumes, filename)
             resume_file.save(file_path)
             current_user.resume_pdf = file_path
